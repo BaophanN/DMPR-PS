@@ -26,10 +26,19 @@ def direction_diff(direction_a, direction_b):
 
 
 def detemine_point_shape(point, vector):
-    """Determine which category the point is in."""
-    vec_direct = math.atan2(vector[1], vector[0])
-    vec_direct_up = math.atan2(-vector[0], vector[1])
-    vec_direct_down = math.atan2(vector[0], -vector[1])
+    """Determine which category the point is in.
+    
+        BRIDGE_ANGLE_DIFF = 0.09757113548987695 + 0.1384059287593468
+        SEPARATOR_ANGLE_DIFF = 0.284967562063968 + 0.1384059287593468  
+    """
+    vec_direct = math.atan2(vector[1], vector[0]) # coord -> angle 
+    vec_direct_up = math.atan2(-vector[0], vector[1]) # 90 degree counter clockwise
+    vec_direct_down = math.atan2(vector[0], -vector[1]) # 90 degree clockwise 
+    # print('point shape',point.shape)
+    # print('vec direct',vec_direct)
+    # print('vec direct up',vec_direct_up)
+    # print('vec direct down',vec_direct_down)
+
     if point.shape < 0.5:
         if direction_diff(vec_direct, point.direction) < config.BRIDGE_ANGLE_DIFF:
             return PointShape.t_middle

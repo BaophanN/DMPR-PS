@@ -47,7 +47,12 @@ def overlap_check(centralied_marks):
 
 
 def generalize_marks(centralied_marks):
-    """Convert coordinate to [0, 1] and calculate direction label."""
+    """Convert coordinate to [0, 1] and calculate direction label.
+    centralized_marks: bounding boxes 
+    Original range: [-300,300]
+    Translation range: 0, 600 
+    Normalize: 0,1 
+    """
     generalized_marks = []
     for mark in centralied_marks:
         xval = (mark[0] + 300) / 600
@@ -68,7 +73,11 @@ def write_image_and_label(name, image, centralied_marks, name_list):
 
 
 def rotate_vector(vector, angle_degree):
-    """Rotate a vector with given angle in degree."""
+    """Rotate a vector with given angle in degree.
+       The rotation matrix: 
+        cos sin 
+       -sin cos
+    """
     angle_rad = math.pi * angle_degree / 180
     xval = vector[0]*math.cos(angle_rad) + vector[1]*math.sin(angle_rad)
     yval = -vector[0]*math.sin(angle_rad) + vector[1]*math.cos(angle_rad)
@@ -109,7 +118,7 @@ def generate_dataset(args):
         centralied_marks = np.array(label['marks'])
         if len(centralied_marks.shape) < 2:
             centralied_marks = np.expand_dims(centralied_marks, axis=0)
-        centralied_marks[:, 0:4] -= 300.5
+        centralied_marks[:, 0:4] -= 300.5 # why not 300.0 here? 
         if boundary_check(centralied_marks) or args.dataset == 'test':
             output_name = os.path.join(args.output_directory, name)
             write_image_and_label(output_name, image,

@@ -76,6 +76,8 @@ def pair_marking_points(point_a, point_b):
     vector_ab = vector_ab / np.linalg.norm(vector_ab)
     point_shape_a = detemine_point_shape(point_a, vector_ab)
     point_shape_b = detemine_point_shape(point_b, -vector_ab)
+    print('point a shape', point_shape_a, point_a)
+    print('point b shape', point_shape_b, point_b)
     if point_shape_a.value == 0 or point_shape_b.value == 0:
         return 0
     if point_shape_a.value == 3 and point_shape_b.value == 3:

@@ -7,7 +7,7 @@ import config
 import data
 import util
 from model import DirectionalPointDetector
-
+from sys import exit
 
 def plot_prediction(logger, image, marking_points, prediction):
     """Plot the ground truth and prediction of a random sample in a batch."""
@@ -81,7 +81,10 @@ def train_detector(args):
 
             optimizer.zero_grad()
             prediction = dp_detector(images)
+            # print(f'->image shape, {images.shape}')
+            # print(f'->prediction shape, {prediction.shape}')
             objective, gradient = generate_objective(marking_points, device)
+            # print(f'->objective,{objective.shape}, gradient,{gradient.shape}')
             loss = (prediction - objective) ** 2
             loss.backward(gradient)
             optimizer.step()
